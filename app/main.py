@@ -40,9 +40,37 @@ def home():
     return {"message": "API is running"}
 
 
-@app.get("/characters")
+@app.get("/characters/")
 def character():
     # Endpoint: returns all characters from loaded dataset
     # We are NOT searching or filtering yet — just exposing data
     names_of_chars = lore_data["characters"]
     return names_of_chars
+
+@app.get("/characters/{name}")
+def character(name):
+    # This defines an API endpoint.
+    # When someone visits /characters/<name>,
+    # FastAPI passes <name> into this function.
+
+    chars = lore_data
+
+    search_name = name.lower()
+    # Convert user input to lowercase.
+    # This removes case sensitivity issues like:
+    # "Jicho" vs "jicho" vs "JICHO"
+
+    for character in chars["characters"]:
+
+        character_name = character["name"].lower()
+        # Convert the stored character name to lowercase
+        # so comparison matches the normalized input.
+
+        if search_name in character_name:
+            # Check if user input appears inside the character name.
+            # This allows partial matching:
+            # "ji" → "Jicho"
+
+            return character
+
+    return {"error": "Character not found"} # If loop finishes with no match return an error message instead of returning nothing.
