@@ -8,7 +8,6 @@ import json
 def check_json_files():
     # Loads JSON data from file into Python memory
     # This is part of "startup initialization" logic (not request logic)
-    lore_data = None
     try:
         with open('data/lore_data.json') as f:
             lore_data = json.load(f)  # converts JSON → Python dict
@@ -17,6 +16,7 @@ def check_json_files():
         # If file path is wrong or missing, API cannot function properly
         print("Missing data file")
         return None
+
 
 
 # ----------------------------
@@ -43,9 +43,7 @@ def home():
 @app.get("/characters/")
 def get_all_characters():
     # Endpoint: returns all characters from loaded dataset
-    # We are NOT searching or filtering yet — just exposing data
-    data_for_chars = lore_data["characters"]
-    return data_for_chars
+    return lore_data["characters"]
 
 @app.get("/characters/{name}")
 def get_character(name):
@@ -53,12 +51,11 @@ def get_character(name):
     # When someone visits /characters/<name>,
     # FastAPI passes <name> into this function.
 
-    chars = lore_data
 
     search_name = name.lower()
     # Convert user input to lowercase.
 
-    for character in chars["characters"]:
+    for character in lore_data["characters"]:
 
         character_name = character["name"].lower()
         # Convert the stored character name to lowercase
