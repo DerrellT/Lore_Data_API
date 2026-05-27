@@ -34,7 +34,7 @@ This project was built to learn core backend development concepts using Python a
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 Lore Data API/
 │
 ├── main.py              # FastAPI application
@@ -44,7 +44,7 @@ Lore Data API/
 
 ---
 
-## ▶️ How to Run
+## How to Run
 
 1. Activate virtual environment:
 source venv/bin/activate
@@ -59,7 +59,7 @@ http://127.0.0.1:8000/docs
 
 ---
 
-## 🧠 What I Learned
+## What I Learned
 
 - How APIs handle requests and responses
 - Difference between CLI apps and web APIs
@@ -69,7 +69,7 @@ http://127.0.0.1:8000/docs
 
 ---
 
-## 📌 Future Improvements
+## Future Improvements
 
 - Add character lookup by name
 - Add region endpoints
@@ -79,7 +79,7 @@ http://127.0.0.1:8000/docs
 
 ---
 
-## ⚠️ Notes
+## Notes
 
 This is a learning project focused on backend fundamentals, not production deployment.
 
