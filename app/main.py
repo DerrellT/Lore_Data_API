@@ -17,7 +17,20 @@ def check_json_files():
         print("Missing data file")
         return None
 
-
+def search_lore(search_term, lore_data):
+    results = [] # created list to be added onto
+    for character in lore_data["characters"]:
+        if search_term in character["name"].lower():
+            results.append({ 
+                "type": "Character", #now it can filter by "type"
+                "data": character}) #goes through and adds all partial matches to a resutl list
+    for region in lore_data["regions"]:
+        if search_term in region["name"].lower():
+            results.append({
+                "type": "Region",
+                "data": region})
+    return results #collects the list that has been made
+     
 
 # ----------------------------
 # APP INITIALIZATION
@@ -37,31 +50,28 @@ lore_data = check_json_files()
 def home():
     # Health check endpoint
     # Used to confirm API is running correctly
+    if not lore_data:
+        return {"error": "File issue needs to be resolved"}
     return {"message": "API is running"}
 
 
-@app.get("/characters/")
-def get_all_characters():
+@app.get("/lore/")
+def get_all_lore():
     # Endpoint: returns all characters from loaded dataset
-    return lore_data["characters"]
+    return lore_data
 
-@app.get("/characters/{name}")
-def get_character(name):
+@app.get("/lore/{term}")
+def get_lore(term):
     # This defines an API endpoint.
     # When someone visits /characters/<name>,
     # FastAPI passes <name> into this function.
 
-
-    search_name = name.lower()
+    search_term = term.lower()
     # Convert user input to lowercase.
+    result = search_lore(search_term, lore_data)
+    if not result:
+        return {"error": "No matches found"} # If loop finishes with no match return an error message instead of returning nothing.
+ 
+    return result
 
-    for character in lore_data["characters"]:
 
-        character_name = character["name"].lower()
-        # Convert the stored character name to lowercase
-
-        if search_name in character_name:
-            # Check if user input appears inside the character name,and partial matching
-            return character
-
-    return {"error": "Character not found"} # If loop finishes with no match return an error message instead of returning nothing.
