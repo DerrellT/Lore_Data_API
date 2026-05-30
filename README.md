@@ -1,18 +1,18 @@
 # Lore Data API
 
-A beginner backend API built with FastAPI that serves structured lore data stored in a local JSON file.
+Backend API built with FastAPI that serves structured lore data from a local JSON dataset, with support for data retrieval and search-based queries.
 
 ---
 
 ## Project Purpose
 
-This project was built to learn core backend development concepts using Python and FastAPI, including:
+This project was built to develop foundational backend engineering skills using Python and FastAPI, including:
 
-- Building REST API endpoints
-- Loading and serving JSON data
-- Understanding request/response flow
-- Learning server architecture and routing
-- Practicing clean separation between data and API logic
+- Designing REST API endpoints
+- Handling JSON-based data pipelines
+- Understanding request/response lifecycle
+- Structuring backend applications
+- Implementing basic search logic over structured data
 
 ---
 
@@ -21,16 +21,25 @@ This project was built to learn core backend development concepts using Python a
 - Python
 - FastAPI
 - Uvicorn
-- JSON (local data storage)
+- JSON (local data layer)
 
 ---
 
 ## Features (Current Stage)
 
-- Basic FastAPI server setup
-- Root endpoint to confirm API is running
-- `/characters` endpoint that returns all character data from JSON
-- JSON file loaded once at server startup
+- FastAPI server with modular structure
+- Health check endpoint (/)
+- Full dataset endpoint (/characters)
+- Search endpoint with partial matching logic
+- JSON data loaded once at server startup for efficiency
+
+---
+
+## API Endpoints
+
+- GET / → API health check
+- GET /lore → returns all character data
+- GET /lore/{term} → returns matching characters and regions using partial search
 
 ---
 
@@ -54,33 +63,31 @@ pip install fastapi uvicorn
 python3 -m uvicorn main:app –reload
 4. Open in browser:
 http://127.0.0.1:8000
-http://127.0.0.1:8000/characters
+http://127.0.0.1:8000/lore
 http://127.0.0.1:8000/docs
 
 ---
 
 ## What I Learned
 
-- How APIs handle requests and responses
-- Difference between CLI apps and web APIs
-- How to structure backend code
-- How data flows from file → server → client
-- Basics of REST API design
+- REST API design fundamentals
+- Difference between CLI and web-based architectures
+- How request/response cycles work in FastAPI
+- JSON data handling in backend systems
+- Basic search logic and filtering over structured data
 
 ---
 
 ## Future Improvements
 
-- Add character lookup by name
-- Add region endpoints
-- Add search functionality
-- Improve API structure (modular files)
-- Add error handling improvements
-
+- Add exact-match character lookup endpoint
+- Improve error handling with HTTP status codes
+- Refactor into modular backend structure
+- Expand dataset relationships (characters ↔ regions)
 ---
 
 ## Notes
 
-This is a learning project focused on backend fundamentals, not production deployment.
+This project focuses on backend fundamentals and API design principles rather than production deployment or full-stack architecture.
 
 ---

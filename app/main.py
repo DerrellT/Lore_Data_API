@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 import json
 
 # ----------------------------
@@ -7,10 +7,10 @@ import json
 
 def check_json_files():
     # Loads JSON data from file into Python memory
-    # This is part of "startup initialization" logic (not request logic)
+    # This is part of startup initialization
     try:
         with open('data/lore_data.json') as f:
-            lore_data = json.load(f)  # converts JSON → Python dict
+            lore_data = json.load(f) 
             return lore_data
     except FileNotFoundError:
         # If file path is wrong or missing, API cannot function properly
@@ -36,9 +36,9 @@ def search_lore(search_term, lore_data):
 # APP INITIALIZATION
 # ----------------------------
 
-app = FastAPI()  # creates the API server instance (this is what uvicorn runs)
+app = FastAPI()  # creates the API server instance, what uvicorn runs
 
-# Loads data ONCE when server starts (important backend concept: startup state)
+# Loads data ONCE when server starts into memory
 lore_data = check_json_files()
 
 
@@ -57,21 +57,32 @@ def home():
 
 @app.get("/lore/")
 def get_all_lore():
-    # Endpoint: returns all characters from loaded dataset
     return lore_data
 
 @app.get("/lore/{term}")
-def get_lore(term):
-    # This defines an API endpoint.
-    # When someone visits /characters/<name>,
-    # FastAPI passes <name> into this function.
+def get_lore(term): # This defines an API endpoint. When someone visits /lore/<term>. FastAPI passes <term> into this function.
+    # Handles partial matching, returns a list and can look between both cahracters and regions
 
-    search_term = term.lower()
-    # Convert user input to lowercase.
     result = search_lore(search_term, lore_data)
     if not result:
-        return {"error": "No matches found"} # If loop finishes with no match return an error message instead of returning nothing.
- 
+        raise HTTPException(status_code=404, detail="Item not found") 
     return result
 
+#high level
+# Creates FastApi server
+# loads json dataset once into memory
+# shows endpoints for user to retrieve data from chars or regions
+# seearch function returns type and its data
 
+#system flow
+# request comes in /lore/term
+# FastAPI receives it
+# route function runs
+# search function filters JSON
+# response returned
+
+
+#zoomed in
+# search function logic
+# data loading
+# why lowercase matching works
