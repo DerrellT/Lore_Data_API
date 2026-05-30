@@ -30,7 +30,11 @@ def search_lore(search_term, lore_data):
                 "type": "Region",
                 "data": region})
     return results #collects the list that has been made
-     
+    
+def search_character(search_char_by_name, lore_data):
+    for character in lore_data["characters"]:
+        if character["name"].lower() == search_char_by_name:
+            return character
 
 # ----------------------------
 # APP INITIALIZATION
@@ -62,11 +66,21 @@ def get_all_lore():
 @app.get("/lore/{term}")
 def get_lore(term): # This defines an API endpoint. When someone visits /lore/<term>. FastAPI passes <term> into this function.
     # Handles partial matching, returns a list and can look between both cahracters and regions
+    search_term = term.lower() # Convert user input to lowercase.
 
     result = search_lore(search_term, lore_data)
     if not result:
         raise HTTPException(status_code=404, detail="Item not found") 
     return result
+
+@app.get("/character/{name}")
+def get_character(name):
+    search_char_by_name = name.lower()
+    result = search_character(search_char_by_name, lore_data)
+    if not result:
+        raise HTTPException(status_code=404, detail="Item not found") 
+    return result
+
 
 #high level
 # Creates FastApi server
