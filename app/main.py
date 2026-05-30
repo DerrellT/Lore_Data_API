@@ -70,7 +70,7 @@ def get_lore(term): # This defines an API endpoint. When someone visits /lore/<t
 
     result = search_lore(search_term, lore_data)
     if not result:
-        raise HTTPException(status_code=404, detail="Item not found") 
+        raise HTTPException(status_code=404, detail="Lore not found") 
     return result
 
 @app.get("/character/{name}")
@@ -78,7 +78,7 @@ def get_character(name):
     search_char_by_name = name.lower()
     result = search_character(search_char_by_name, lore_data)
     if not result:
-        raise HTTPException(status_code=404, detail="Item not found") 
+        raise HTTPException(status_code=404, detail="Character not found") 
     return result
 
 
